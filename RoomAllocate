@@ -1,0 +1,74 @@
+
+import java.util.Scanner;
+
+class Student {
+    String name;
+    String gender;
+    String degree;
+}
+
+public class RoomA {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Student[] s = new Student[21];
+
+        for (int i = 0; i < 21; i++) {
+            s[i] = new Student();
+
+            System.out.println("Enter student name:");
+            s[i].name = sc.nextLine();
+
+            System.out.println("Enter gender (M/F):");
+            s[i].gender = sc.nextLine();
+
+            System.out.println("Enter degree (UG/PG):");
+            s[i].degree = sc.nextLine();
+        }
+
+        int[] room = new int[21];
+        int roomNo = 1;
+
+        for (int i = 0; i < 21; i++) {
+            if (room[i] != 0)
+                continue;
+
+            boolean allotted = false;
+
+            for (int j = i + 1; j < 21; j++) {
+                if (room[j] == 0 &&
+                    s[i].gender.equalsIgnoreCase(s[j].gender)) {
+
+                    room[i] = roomNo;
+                    room[j] = roomNo;
+
+                    System.out.println("\nRoom " + roomNo);
+                    System.out.println(s[i].name + " - "
+                        + s[i].gender + " - " + s[i].degree);
+                    System.out.println(s[j].name + " - "
+                        + s[j].gender + " - " + s[j].degree);
+
+                    roomNo++;
+                    allotted = true;
+                    break;
+                }
+            }
+
+            if (!allotted) {
+                room[i] = -1;
+            }
+        }
+
+        System.out.println("\nStudent left without a roommate:");
+
+        for (int i = 0; i < 21; i++) {
+            if (room[i] == -1) {
+                System.out.println(s[i].name + " - "
+                    + s[i].gender + " - " + s[i].degree);
+            }
+        }
+
+        sc.close();
+    }
+}
+
