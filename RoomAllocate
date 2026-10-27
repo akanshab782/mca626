@@ -1,74 +1,57 @@
-
 import java.util.Scanner;
 
-class Student {
-    String name;
-    String gender;
-    String degree;
-}
-
-public class RoomA {
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        Student[] s = new Student[21];
+        String[] name = new String[21];
+        String[] gender = new String[21];
+        String[] degree = new String[21];
 
         for (int i = 0; i < 21; i++) {
-            s[i] = new Student();
+            System.out.println("Enter the student's name:");
+            name[i] = sc.nextLine();
 
-            System.out.println("Enter student name:");
-            s[i].name = sc.nextLine();
+            System.out.println("Enter the student's gender(M/F):");
+            gender[i] = sc.nextLine();
 
-            System.out.println("Enter gender (M/F):");
-            s[i].gender = sc.nextLine();
-
-            System.out.println("Enter degree (UG/PG):");
-            s[i].degree = sc.nextLine();
+            System.out.println("Enter the student's degree (UG/PG):");
+            degree[i] = sc.nextLine();
         }
 
-        int[] room = new int[21];
-        int roomNo = 1;
+        int room = 1;
+        boolean[] allotted = new boolean[21];
 
         for (int i = 0; i < 21; i++) {
-            if (room[i] != 0)
+            if (allotted[i])
                 continue;
 
-            boolean allotted = false;
-
             for (int j = i + 1; j < 21; j++) {
-                if (room[j] == 0 &&
-                    s[i].gender.equalsIgnoreCase(s[j].gender)) {
+                if (!allotted[j] &&
+                    gender[i].equalsIgnoreCase(gender[j])) {
 
-                    room[i] = roomNo;
-                    room[j] = roomNo;
+                    System.out.println("\nRoom " + room + ":");
+                    System.out.println(name[i] + " - " + degree[i]);
+                    System.out.println(name[j] + " - " + degree[j]);
 
-                    System.out.println("\nRoom " + roomNo);
-                    System.out.println(s[i].name + " - "
-                        + s[i].gender + " - " + s[i].degree);
-                    System.out.println(s[j].name + " - "
-                        + s[j].gender + " - " + s[j].degree);
-
-                    roomNo++;
-                    allotted = true;
+                    allotted[i] = true;
+                    allotted[j] = true;
+                    room++;
                     break;
                 }
             }
-
-            if (!allotted) {
-                room[i] = -1;
-            }
         }
 
-        System.out.println("\nStudent left without a roommate:");
+        System.out.println("\nStudents left without a roommate:");
 
         for (int i = 0; i < 21; i++) {
-            if (room[i] == -1) {
-                System.out.println(s[i].name + " - "
-                    + s[i].gender + " - " + s[i].degree);
+            if (!allotted[i]) {
+                System.out.println(name[i] + " - "
+                        + gender[i] + " - " + degree[i]);
             }
         }
 
         sc.close();
     }
 }
-
+```
